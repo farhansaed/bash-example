@@ -1,6 +1,10 @@
 steps:
-  - label: ":hammer: Example Script"
-    command: "script.sh"
-    artifact_paths: "artifacts/*"
-    agents:
-      queue: "${BUILDKITE_AGENT_META_DATA_QUEUE:-default}"
+  - label: "Trigger Pipeline for timeout test"
+    command: buildkite-agent pipeline upload .buildkite/trigger.yml
+    key: my-trigger-pipeline
+    env:
+      APP_NAME: "marketplacer"
+      ALIAS: "staging-au"
+      DEPLOY_QUEUE: "default"
+      BUILD_TIME_OUT: 30
+    branches: "main"

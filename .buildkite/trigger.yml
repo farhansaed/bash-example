@@ -1,0 +1,15 @@
+steps:
+  - label: ":test: TIMEOUT TEST TRIGGERED PIPELINE"
+    timeout_in_minutes: ${BUILD_TIME_OUT}
+    retry:
+      automatic:
+        - limit: 1
+    artifact_paths: "artifacts/*"
+    agents:
+      queue: "${BUILDKITE_AGENT_META_DATA_QUEUE:-default}"
+    env:
+      COMPOSE_DOCKER_CLI_BUILD: 1
+      DOCKER_BUILDKIT: 1
+    plugins:
+      - ssh://git@github.com/marketplacer/ecs-run-task-buildkite-plugin.git#v1.1.0:
+          download_url: s3:///ecs-run-task
